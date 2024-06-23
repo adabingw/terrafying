@@ -6,7 +6,16 @@ module "graku_appsync" {
     authentication_type = "API_KEY"
     
     role_name = "graku_appsync_role"
-    appsync_resource_actions = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:DeleteItem", "dynamodb:UpdateItem", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGetItem", "dynamodb:BatchWriteItem"]
+    appsync_resource_actions = [
+        "dynamodb:GetItem", 
+        "dynamodb:PutItem", 
+        "dynamodb:DeleteItem", 
+        "dynamodb:UpdateItem", 
+        "dynamodb:Query", 
+        "dynamodb:Scan", 
+        "dynamodb:BatchGetItem", 
+        "dynamodb:BatchWriteItem"
+    ]
     appsync_resource_arn = var.graku_dynamo_arn
     appsync_resource_name = var.graku_dynamo_name
 
@@ -16,4 +25,12 @@ module "graku_appsync" {
     appsync_iam_role_policy = "graku_appsync_role_policy"
 
     region = "us-east-1"
+
+    datasources = {
+        "graku_dynamodb" = {
+            type = "AMAZON_DYNAMODB",
+            table_name = "graku_dynamo",
+            region = "us-east-1"
+        }
+    }
 }

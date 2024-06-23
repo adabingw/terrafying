@@ -50,3 +50,8 @@ variable "appsync_resource_name" {
 variable "region" {
     type = string
 }
+
+variable "datasources" {
+  description = "Map of datasources to create"
+  type        = any
+}
