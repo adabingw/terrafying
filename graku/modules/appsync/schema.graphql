@@ -1,0 +1,256 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+interface GrApp {
+  data: AWSJSON
+  id: ID!
+  name: String!
+  type: String!
+}
+
+type Assignment implements GrApp {
+  course: Course
+  course_id: ID!
+  data: AWSJSON
+  id: ID!
+  name: String!
+  term_id: ID!
+  type: String!
+}
+
+type AssignmentConnection {
+  items: [Assignment]
+  nextToken: String
+}
+
+type Course implements GrApp {
+  assignments: [Assignment]
+  content_info: AWSJSON
+  data: AWSJSON
+  grade: Float
+  grading_scheme: String
+  id: ID!
+  name: String!
+  order: Int
+  term: [Term]
+  term_id: ID!
+  type: String!
+}
+
+type CourseConnection {
+  items: [Course]
+  nextToken: String
+}
+
+type GrAppConnection {
+  items: [GrApp]
+  nextToken: String
+}
+
+type Mutation {
+  createAssignment(input: CreateAssignmentInput!): Assignment
+  createAssignmentBatch(input: [CreateAssignmentInput]): [Assignment]
+  createCourse(input: CreateCourseInput!): Course
+  createGrApp(input: CreateGrAppInput!): GrApp
+  createTerm(input: CreateTermInput!): Term
+  deleteAssignment(input: DeleteGrAppInput!): Assignment
+  deleteAssignmentfromCourse(input: DeleteGrAppInput!): Assignment
+  deleteAssignmentfromTerm(input: DeleteGrAppInput!): Assignment
+  deleteCourse(input: DeleteGrAppInput!): Course
+  deleteCoursefromTerm(input: DeleteGrAppInput!): Course
+  deleteGrApp(input: DeleteGrAppInput!): GrApp
+  deleteTerm(input: DeleteGrAppInput!): Term
+  duplicateCourse(input: [DuplicateCourse]): Course
+  duplicateTerm(input: [DuplicateTerm]): Term
+  updateAssignment(input: UpdateAssignmentInput!): Assignment
+  updateCourse(input: UpdateCourseInput!): Course
+  updateGrApp(input: UpdateGrAppInput!): GrApp
+  updateTerm(input: UpdateTermInput!): Term
+}
+
+type Query {
+  allTerm(limit: Int, nextToken: String, type: String): TermConnection
+  getAssignment(id: ID!, type: String): Assignment
+  getAssignmentfromTerm(term_id: ID!, type: String): Assignment
+  getCourse(id: ID!, type: String): Course
+  getGrApp(id: ID!, type: String!): GrApp
+  getTerm(id: ID!, type: String): Term
+  listGrApps(filter: TableGrAppFilterInput, limit: Int, nextToken: String): GrAppConnection
+}
+
+type Term implements GrApp {
+  archived: Boolean
+  courses: [Course]
+  current: Boolean
+  data: AWSJSON
+  grade: Float
+  id: ID!
+  name: String!
+  order: Int
+  type: String!
+}
+
+type TermConnection {
+  items: [Term]
+  nextToken: String
+}
+
+input CreateAssignmentInput {
+  course_id: ID
+  data: AWSJSON
+  id: ID!
+  name: String
+  term_id: ID
+  type: String!
+}
+
+input CreateCourseInput {
+  content_info: AWSJSON
+  data: AWSJSON
+  grade: Float
+  grading_scheme: String
+  id: ID!
+  name: String
+  order: Int
+  term_id: ID
+  type: String!
+}
+
+input CreateGrAppInput {
+  data: AWSJSON
+  id: ID!
+  name: String
+  type: String!
+}
+
+input CreateTermInput {
+  archived: Boolean
+  current: Boolean
+  data: AWSJSON
+  grade: Float
+  id: ID!
+  name: String
+  order: Int
+  type: String!
+}
+
+input DeleteGrAppInput {
+  id: ID!
+  type: String!
+}
+
+input DuplicateCourse {
+  assignments: [CreateAssignmentInput]
+  course: CreateCourseInput
+}
+
+input DuplicateTerm {
+  assignments: [CreateAssignmentInput]
+  courses: [CreateCourseInput]
+  term: CreateTermInput
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableGrAppFilterInput {
+  id: TableIDFilterInput
+  name: TableStringFilterInput
+  type: TableStringFilterInput
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdateAssignmentInput {
+  course_id: ID
+  course_name: String
+  data: AWSJSON
+  id: ID!
+  name: String
+  term_id: ID
+  term_name: String
+  type: String!
+}
+
+input UpdateCourseInput {
+  content_info: AWSJSON
+  data: AWSJSON
+  grade: Float
+  grading_scheme: String
+  id: ID!
+  name: String
+  order: Int
+  term_id: ID
+  term_name: String
+  type: String!
+}
+
+input UpdateGrAppInput {
+  data: AWSJSON
+  id: ID!
+  name: String
+  type: String!
+}
+
+input UpdateTermInput {
+  archive: Boolean
+  current: Boolean
+  data: AWSJSON
+  grade: Float
+  id: ID!
+  name: String
+  order: Int
+  type: String!
+}
